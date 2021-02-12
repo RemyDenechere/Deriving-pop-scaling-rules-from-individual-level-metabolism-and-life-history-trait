@@ -3,22 +3,12 @@
 %                           Figure PhD paper 1                            %
 %                                                                         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 clear all 
 addpath('data', 'Suppl_code')
-load('Egg_size_data_Benthos.mat')
-load('Egg_size_data_Elasmobranch.mat')
-load('Egg_size_data_Teleost.mat')
-load('Egg_size_data_Copepods.mat')
-load('Egg_size_data_Mammal.mat')
-load('Growth_data_Copepod.mat')
-load('Growth_data_Bivalve.mat')
-load('Growth_data_Elasmobranch.mat') 
-load('Growth_data_Teleost.mat')
-load('r_max_Teleost_Hutchings2012.mat')
-load('r_max_Elasmobranch_Zhou2011.mat')
-load('r_max_Mammalia_Hutchings2012.mat')
-load('Maturity_data.mat')
+
+% set tha parameters
+param = parameters()
+col = my_color()
 
 %% Figure 1: Theoretical population growth rate
 % Assumtions: 
@@ -26,33 +16,33 @@ load('Maturity_data.mat')
 %   - Resource is constant (implies that A = constant). 
 %   - 2 strategies: M0 is either constant or proportional to M. 
 
-param = parameters()
-
+figure()
 % Constant strategy: ------------------------------------------------------
 subplot1 = subplot(1,2,1)
 ratio = 10^3; % adult:offsprping size ratio M/M_0
 epsR = [0.02, 0.05, 1]'; % recruitment efficiency 
-r_max = param.A.*(1 - param.n) .* param.Winf.^(param.n - 1) .*((1 - param.a).*log(ratio) + log(epsR)); 
+r_max = param.A.*(1 - param.n) .* param.M.^(param.n - 1) .*((1 - param.a).*log(ratio) + log(epsR)); 
 
-loglog(param.Winf, r_max, 'k', 'LineWidth', 1.25)
+loglog(param.M, r_max, 'k', 'LineWidth', 1.25)
 set(gca, 'XTick',[0.01 100 10^(6)])
 xlabel('Adult size, M')
 ylabel('Maximum population growth rate, r_{max}')
 title('A')
 
 % Proportional strategy:---------------------------------------------------
-ratio = param.Winf/0.01; % adult:offsprping size ratio M/M_0
+ratio = param.M/0.01; % adult:offsprping size ratio M/M_0
 epsR = [0.0005, 0.001, 0.01, 1]'; % recruitment efficiency 
-r_max = param.A.*(1 - param.n) .* param.Winf.^(param.n - 1) .*((1 - param.a).*log(ratio) + log(epsR)); 
+r_max = param.A.*(1 - param.n) .* param.M.^(param.n - 1) .*((1 - param.a).*log(ratio) + log(epsR)); 
 
 subplot2 = subplot(1,2,2)
-loglog(param.Winf, r_max, 'k', 'LineWidth', 1.25)
+loglog(param.M, r_max, 'k', 'LineWidth', 1.25)
 hold on 
-plot(param.Winf, param.Winf.^(-1/4),'k--', 'LineWidth', 1.25)
+plot(param.M, param.M.^(-1/4),'k--', 'LineWidth', 1.25)
 xlabel('Adult size, M')
 set(gca, 'XTick',[0.01 100 10^(6)])
 title('B')
 
+% limits for the axis: 
 xlim(subplot2,[0.5*10^(-2) 10^(6)]);
 xlim(subplot1,[10^(-2) 10^(6)]);
 ylim(subplot1,[0.0528783494877261 3.88425212252619]);
@@ -60,129 +50,39 @@ ylim(subplot1,[0.0528783494877261 3.88425212252619]);
 % Textboxes: 
 Extra_code_F1(gcf)
 
-% Save the figure as a pdf: -----------------------------------------------
-x0=0;
-y0=0;
-width=16;
-height=10; 
-set(gcf, 'units', 'centimeters', 'position',[x0,y0,width,height])
+% Save the figure as a pdf: 
+save_pdf(gcf, 'Fig1_Theoretical_rmax',16, 10)
 
-set(gcf,'Units','centimeters');
-screenposition = get(gcf,'Position'); % get the figure size
-set(gcf,...
-    'PaperPosition',[0 0 screenposition(3:4)],...
-    'PaperSize',[screenposition(3:4)]); % make the print paper size fits the figure size
-print -dpdf -painters Fig_0_Theoretical_rmax
-
-%% Figure 3: Growth and egg size strategies - DATA
-
-col = my_color();
-
-% Benthos parameters: ----------------------------------------------------
-paramB = parameters_benthos(500);
-Linf_B = Growth_data_Bivalve.Linf;
-Winf_B = paramB.c*Linf_B.^(3);
-K_B = Growth_data_Bivalve.K; % [1/yr]
-A_B = 3*K_B.*Linf_B.^(3/4)*paramB.c^(1/4)*paramB.eta^(-1/12);
-
-% fit model:
-FitAB = exp(-0.01941)*Winf_B.^(0.2149);
-% FitKB = exp(-1.29602)*Winf_B.^(-0.03510);
-
-% Teleost parameters: ----------------------------------------------------
-paramF = parameters_fish(1);
-Linf_F = Growth_data_Teleost.Linf;
-Winf_F = paramF.c*Linf_F.^(3);
-K_F = Growth_data_Teleost.K;
-A_F = Growth_data_Teleost.A;
-
-% fit model:
-FitAF = exp(1.292)*Winf_F.^(0.04331); 
-% FitKF = exp(0.08684)*Winf_F.^( -0.2067);
-
-% Elasmobranch parameters: -----------------------------------------------
-paramF = parameters_fish(1);
-Linf_E = Growth_data_Elasmobranch.Linf;
-Winf_E = paramF.c*Linf_E.^(3);
-K_E = Growth_data_Elasmobranch.K;
-A_E = 3*K_E.*Linf_E.^(3/4)*paramF.c^(1/4)*paramF.eta^(-1/12);
-
-%  fit model:
-FitAE = exp(1.706)*Winf_E.^(0.02404); 
-% FitKF = exp(0.5012)*Winf_E.^(-0.226);
-
-% Copepods ----------------------------------------------------------------
-i = Growth_data_Copepod.Feeding == 'Active feeders' | Growth_data_Copepod.Feeding == 'Mixed feeders';
-j = i == 0;
-A_C = Growth_data_Copepod.A; 
-Winf_C = Growth_data_Copepod.Winf;
-
-% fit model: 
-
-FitAC_Act = Winf_C(~isnan(Winf_C)).^(0)*  6.8346; 
-FitAC_Act = FitAC_Act(i); 
-FitAC_Pass = Winf_C(~isnan(Winf_C)).^(0)* exp(0.3652);
-FitAC_Pass = FitAC_Pass(j);
-%
-% plot Von Bertalanffy coefficient: --------------------------------------
-% Growth parameter A:
+%% Figure 2: Growth and egg size strategies - DATA
 figure()
 
+% Plot Growth parameter A: ------------------------------------------------
 subplot(2,1,1)
-loglog(Winf_B, A_B, 'o', 'Color', col.yellight, 'MarkerSize', 5, 'MarkerFaceColor', [0.99 0.94 0.67] ) % Benthos data A %
+loglog(param.Winf_B, param.A_B, 'o', 'Color', col.yellight, 'MarkerSize', 5, 'MarkerFaceColor', [0.99 0.94 0.67] ) % Benthos data A %
 hold on 
-plot(Winf_F, A_F, '.', 'Color', [col.bleulight, 0.9], 'MarkerSize', 7) % Teleost data A
+plot(param.Winf_F, param.A_F, '.', 'Color', [col.bleulight, 0.9], 'MarkerSize', 7) % Teleost data A
 hold on 
-plot(Winf_E, A_E, 'v', 'Color', col.redlight, 'MarkerSize', 5) % Elasmobranch data A
+plot(param.Winf_E, param.A_E, 'v', 'Color', col.redlight, 'MarkerSize', 5) % Elasmobranch data A
 hold on 
-plot(Winf_C(i), A_C(i), 's', 'Color', [0.49,0.18,0.56], 'MarkerSize', 5, 'MarkerFaceColor', [0.78,0.6, 0.82]) % Copepods data A active feeders 
+plot(param.Winf_C(param.ixAct), param.A_C(param.ixAct), 's', 'Color', [0.49,0.18,0.56], 'MarkerSize', 5, 'MarkerFaceColor', [0.78,0.6, 0.82]) % Copepods data A active feeders 
 hold on 
-plot(Winf_C(j), A_C(j), 'd', 'Color', [0.49,0.18,0.56], 'MarkerSize', 5, 'MarkerFaceColor', [0.78,0.6, 0.82]) % Copepods data A Passive feeders 
+plot(param.Winf_C(param.ixPas), param.A_C(param.ixPas), 'd', 'Color', [0.49,0.18,0.56], 'MarkerSize', 5, 'MarkerFaceColor', [0.78,0.6, 0.82]) % Copepods data A Passive feeders 
 hold on 
-plot(Winf_B, FitAB, '-', 'Color', col.yel, 'Linewidth', 1.5) % Benthos fit A
+plot(param.Winf_B, param.FitAB, '-', 'Color', col.yel, 'Linewidth', 1.5) % Benthos fit A
 hold on 
-plot(Winf_F, FitAF, '-', 'Color', col.bleu, 'Linewidth', 1.5) % teleost fit A
+plot(param.Winf_F, param.FitAF, '-', 'Color', col.bleu, 'Linewidth', 1.5) % teleost fit A
 hold on 
-plot(Winf_E, FitAE, '-', 'Color', col.red, 'Linewidth', 1.5) % Elasmobranch fit A
+plot(param.Winf_E, param.FitAE, '-', 'Color', col.red, 'Linewidth', 1.5) % Elasmobranch fit A
 hold on 
-plot(Winf_C(i), FitAC_Act, '-', 'Color', [0.49,0.18,0.56], 'Linewidth', 1.5) % Copepods fit A
+plot(param.Winf_C(param.ixAct), param.FitAC_Act, '-', 'Color', [0.49,0.18,0.56], 'Linewidth', 1.5) % Copepods fit A
 hold on 
-plot(Winf_C(j), FitAC_Pass, '-', 'Color', [0.49,0.18,0.56], 'Linewidth', 1.5) % Copepods fit A
-
+plot(param.Winf_C(param.ixPas), param.FitAC_Pass, '-', 'Color', [0.49,0.18,0.56], 'Linewidth', 1.5) % Copepods fit A
 ylabel('Growth coefficient, A [g^{1/4}/yr]')
 title('A')
 legend('Bivalves', 'Teleost', 'Elasmobranch', 'Copepods', 'Location', 'Southeast', 'EdgeColor', 'none')
 set(gca, 'FontSize', 10)                                                                                                                                                                                              
 
-
 % Relation between egg size and Linf 
-% Get Linf: 
-Linf_B = Egg_size_data_Benthos.L_i;
-Linf_E = Egg_size_data_Elasmobranch.Linf;
-Linf_T = Egg_size_data_Teleost.Linf;
-
-% Get Winf: [g]
-Winf_B = paramB.c*Linf_B.^(3);
-Winf_E = paramF.c*Linf_E.^(3); % ! elasmobranch same c as for Telost 
-Winf_T = paramF.c*Linf_T.^(3);
-Winf_C = Egg_size_data_Copepods.AdultSize*10^(-3); % mg to g
-Winf_M = Egg_size_data_Mammal.AdultSize; % already in g. 
-
-% get w0: [g]
-w0_B = Egg_size_data_Benthos.Ww_0;
-w0_E = Egg_size_data_Elasmobranch.w0;
-w0_T = Egg_size_data_Teleost.w0;
-w0_C = Egg_size_data_Copepods.ProgenySize*10^(-3); % mg to g
-w0_M = Egg_size_data_Mammal.ProgenySize; % already in g
-
-x = log(Winf_M); y = log(Winf_M./w0_M); 
-
-% Fit: 
-Fit_B = exp(14.28)*Winf_B.^(1.07); 
-Fit_E = exp(8.718)*Winf_E.^(-0.2819); % 362.5060*Winf_E.^(0); % 
-Fit_T = exp(7.30)*Winf_T.^(0.9085);
-Fit_C = exp(8.871)*Winf_C.^(0.3256); % 176.6654*Winf_C.^(0); 
-Fit_M = exp(1.29)*Winf_M.^(0.1294); 
 
 subplot(2,1,2)
 % Data: 
