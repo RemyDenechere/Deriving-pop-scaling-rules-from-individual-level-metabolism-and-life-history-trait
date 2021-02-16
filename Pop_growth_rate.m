@@ -20,7 +20,7 @@ elseif i == 3
     ratio = 362.5060; % former value : 6.1119*10^3;
     minWinf = 100; maxWinf = 4.8799*10^(5); % g
     % conf90_inf = [exp(0.5157), -0.09984]; conf90_sup = [exp(2.896), 0.1479]; 
-    epsR = 0.20732951027017494688192676969875;      
+    epsR = param.epsR_elasm;    
   
 % case 3: Bivalves: 
 elseif i == 4
