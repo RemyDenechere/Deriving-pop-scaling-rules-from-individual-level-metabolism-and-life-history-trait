@@ -60,11 +60,11 @@ figure()
 subplot(2,1,1)
 loglog(param.Winf_B, param.A_B, 'o', 'Color', col.yellight, 'MarkerSize', 5, 'MarkerFaceColor', [0.99 0.94 0.67] ) % Benthos data A %
 hold on 
-plot(param.Winf_F, param.A_F, '.', 'Color', [col.bleulight, 0.9], 'MarkerSize', 7) % Teleost data A
+plot(param.Winf_F, param.A_F, '.', 'Color', [0, 0.26,0.99], 'MarkerSize', 7) % Teleost data A
 hold on 
-plot(param.Winf_E, param.A_E, 'v', 'Color', col.redlight, 'MarkerSize', 5) % Elasmobranch data A
+plot(param.Winf_E, param.A_E, 'o', 'Color', col.redlight, 'MarkerSize', 5) % Elasmobranch data A
 hold on 
-plot(param.Winf_C(param.ixAct), param.A_C(param.ixAct), 's', 'Color', [0.49,0.18,0.56], 'MarkerSize', 5, 'MarkerFaceColor', [0.78,0.6, 0.82]) % Copepods data A active feeders 
+plot(param.Winf_C(param.ixAct), param.A_C(param.ixAct), 'o', 'Color', [0.49,0.18,0.56], 'MarkerSize', 5, 'MarkerFaceColor', [0.78,0.6, 0.82]) % Copepods data A active feeders 
 hold on 
 plot(param.Winf_C(param.ixPas), param.A_C(param.ixPas), 'd', 'Color', [0.49,0.18,0.56], 'MarkerSize', 5, 'MarkerFaceColor', [0.78,0.6, 0.82]) % Copepods data A Passive feeders 
 hold on 
@@ -79,7 +79,7 @@ hold on
 plot(param.Winf_C(param.ixPas), param.FitAC_Pass, '-', 'Color', [0.49,0.18,0.56], 'Linewidth', 1.5) % Copepods fit A
 ylabel('Growth coefficient, A [g^{1/4}/yr]')
 title('A')
-legend('Bivalves', 'Teleost', 'Elasmobranch', 'Copepods', 'Location', 'Southeast', 'EdgeColor', 'none')
+legend('Bivalves', 'Teleost', 'Elasmobranch', 'Copepod A.F. ', 'Copepod A.F.', 'Location', 'Southeast', 'EdgeColor', 'none')
 set(gca, 'FontSize', 10)                                                                                                                                                                                              
 
 % Relation between egg size and Linf 
@@ -88,13 +88,13 @@ subplot(2,1,2)
 % Data: 
 loglog(param.Winf_B2, param.Winf_B2./param.w0_B, 'o', 'Color', col.yellight, 'MarkerSize', 5, 'MarkerFaceColor', [0.99 0.94 0.67] )
 hold on 
-plot(param.Winf_T2, param.Winf_T2./param.w0_T, '.', 'Color', col.bleulight, 'MarkerSize', 7)
+plot(param.Winf_T2, param.Winf_T2./param.w0_T, '.', 'Color', [0, 0.26,0.99], 'MarkerSize', 7)
 hold on 
-plot(param.Winf_E2, param.Winf_E2./param.w0_E, 'v', 'Color', col.redlight, 'MarkerSize', 5)
+plot(param.Winf_E2, param.Winf_E2./param.w0_E, 'o', 'Color', col.redlight, 'MarkerSize', 5)
 hold on
-plot(param.Winf_C2, param.Winf_C2./param.w0_C, 's', 'Color', [0.49,0.18,0.56], 'MarkerSize', 5, 'MarkerFaceColor', [0.78,0.6, 0.82])
+plot(param.Winf_C2, param.Winf_C2./param.w0_C, 'o', 'Color', [0.49,0.18,0.56], 'MarkerSize', 5, 'MarkerFaceColor', [0.78,0.6, 0.82])
 hold on 
-plot(param.Winf_M2, param.Winf_M2./param.w0_M, 's', 'Color', [0.51,0.66,0.31], 'MarkerSize', 5, 'MarkerFaceColor', [0.51,0.66,0.31]+ 0.3)
+plot(param.Winf_M2, param.Winf_M2./param.w0_M, 'o', 'Color', [0.51,0.66,0.31], 'MarkerSize', 5, 'MarkerFaceColor', [0.51,0.66,0.31]+ 0.3)
 % Fit: 
 plot(param.Winf_B2, param.Fit_B, '-', 'Color', col.yel, 'LineWidth', 1.5)
 hold on 
@@ -109,38 +109,13 @@ plot(param.Winf_M2, param.Fit_M, '-', 'Color', [0.51,0.66,0.31],  'LineWidth', 1
 xlabel('Asymptotic weight, M_{\infty} [g]')
 ylabel('Adult:Offspring size ratio, M_{\infty}/M_0 [g]')
 title('B')
-legend('Bivalve', 'Teleost', 'Elasmobranch', 'Copepod','Mammal', 'Location', 'Northwest', 'EdgeColor', 'none')
+legend('Bivalve', 'Teleost', 'Elasmobranch', 'Copepod', 'Mammal', 'Location', 'Northwest', 'EdgeColor', 'none')
 set(gca, 'FontSize', 10)
 
 % Save the figure as a pdf: 
 save_pdf(gcf, 'Fig2_Data_growth_fecondity',16, 17)
-
-
-% -------------------------------------------------------------------------
-%% Make Epsilon_R (recruitment efficiency to be a free parameter
-% -------------------------------------------------------------------------
-    % General model from Zhou data:
-    %      rmax = (-1/4)*Winf + b
-    %      b =  exp(1.681)
     
-% epsR : 
-A = 5.5; % Table 2
-epsR_elasm = b/A*(1-n) - (1-a)*log(ra
-
-% Set the parameter to calculat r_max for Elasmobranch:--------------------
-A0 = exp(1.70586) ; b = 0; ratio = 6.1119*10^3;
-    Winf = 4.8799*10^(5); % g
-syms Eps
-
-h0 = A0/(param.epsa*(param.f0 - param.fc));
-
-% growth coefficient: -----------------------------------------------------
-    R = 1; % Resource
-    A = param.epsa.*h0.*Winf.^(b).*(1./(1+ (h0.*Winf.^(b))./(param.gamma.*R)) - param.fc);% individual growth 
-    exp_b = A.*(1 - param.n).* ((1 - param.a) .* log(ratio) + log(Eps)); % constant term in linear regression
-    S = vpa(solve(exp_b == exp(1.681), Eps)) % solving eps_R for a value of constant linear term establish from the linear regression. 
-    
-%% Figure 4 second version:
+%% Figure 3: Rmax simulation and data
 figure
 color = [0.77,0.45,0.51; 0.00,0.45,0.74 ; 0.85,0.33,0.10 ; 0.93,0.69,0.13; 0.49,0.18,0.56 ; 0.49,0.18,0.56; ]; % set the color 
 color_light = [0.77,0.45,0.51; 0.41,0.76,0.99 ; 1.00,0.60,0.43 ; 1.00,0.82,0.39; 1.00,0.82,0.39];  
@@ -153,7 +128,11 @@ subplot(2,2,[1,2])
 for i = 1:6
     
 [~ ,r_max, minWinf, maxWinf] = Pop_growth_rate(Winf, f(2), param, i, 1);
-indx = Winf >= minWinf & Winf <= maxWinf; 
+if i == 1 
+    indx = [];
+else 
+    indx = Winf >= minWinf & Winf <= maxWinf; 
+end
 
 % 90% confidence calculation:  
 [~ ,r_max_inf, ~, ~] = Pop_growth_rate(Winf, f(2), param, i, 2); % calculation conf. interval low boundary
@@ -164,13 +143,11 @@ if i == 3 % Elasmobranchs
     idx = r_max_inf > 0 & r_max_sup > 0 & Winf > 1;
 elseif i == 5 | i == 6 % Copepods
     idx = r_max_inf > 0 & r_max_sup > 0 & Winf > 0 & Winf < 0.1;
+elseif i == 1 
+    idx = Winf == Winf;
 else % Others
     idx = r_max_inf > 0 & r_max_sup > 0 & Winf > 0;
 end 
-
-if i ==6
-  i = i;   
-end
 
 if i == 6 
     plot(Winf(indx), r_max(indx), '',  Winf(idx), r_max(idx)', '--',...
@@ -179,6 +156,7 @@ else
 % Confident interval: based on variation of A from data collected:
 ciplot(r_max_inf(idx), r_max_sup(idx), Winf(idx), color(i,:), 0.25, 'none')
 hold on 
+
 plot(Winf(indx), r_max(indx), '-',  Winf(idx), r_max(idx)', '--',...
     'Color', color(i,:), 'Linewidth', 1.5 )
 
@@ -186,7 +164,7 @@ end
 
 end
 
-plot(Winf, 10^(1)*Winf.^(param.n-1), 'k--', 'LineWidth', 1.5);
+plot(Winf, 10^(0)*Winf.^(param.n-1), 'k--', 'LineWidth', 1.5);
 set(gca, 'Xscale', 'log')
 set(gca, 'Yscale', 'log')
 xlim([9.59252353156652e-08 101912836.96271]);
@@ -199,7 +177,7 @@ title('A')
 % Teleost panel: ----------------------------------------------------------
 % data from hutchings 2012:
 subplot(2,2,3)
-plot(param.Winf_Hutch, param.rmax_Hutch, 'o', 'Color', [0, 0.26,0.99], 'MarkerSize', 3, 'LineWidth', 1);
+plot(param.Winf_Hutch, param.rmax_Hutch, '.', 'Color', [0, 0.26,0.99], 'MarkerSize', 9, 'LineWidth', 1);
 hold on
 
 % rmax simulation from our model:
@@ -218,7 +196,7 @@ ciplot(r_max_inf(idx), r_max_sup(idx), Winf(idx), color(2,:), 0.25, 'none')
 hold on 
 
 % prediction from Metabolic Theo of Ecology: 
-plot(Winf(idx), 10^(0)*Winf(idx).^(param.n-1), 'k--', 'LineWidth', 1.5);
+plot(Winf(idx), 10^(0.75)*Winf(idx).^(param.n-1), 'k--', 'LineWidth', 1.5);
 ylim([0.01 13])
 xlim([min(Winf(idx)) Winf(end)])
 set(gca, 'Xscale', 'log')
@@ -227,14 +205,17 @@ title('B')
 
 % Elasmobranch panel-------------------------------------------------------
 subplot(2,2,4)
-% rmax elasmobranchs Zhou 2011:
-plot(param.Winf_zhou, param.rmax_zhou, 'o', 'Color', [1.00,0.3,0], 'MarkerSize', 3, 'LineWidth', 1);
-hold on
 % Mammals hutchings 2012:
 plot(param.Winf_Marine , param.rmax_Marine, ...
-    'x', 'Color', [0,0.66,0], 'MarkerSize', 4, 'LineWidth', 1, 'MarkerFaceColor', [0.51,0.66,0.31]+ 0.3);
+    'x', 'Color', [0.51,0.66,0.31]-0.3, 'MarkerSize', 5)
+    % 'x', 'Color', [0,0.66,0], 'MarkerSize', 4, 'LineWidth', 1, 'MarkerFaceColor', [0.51,0.66,0.31]+ 0.3);
+hold on 
 plot(param.Winf_Ter , param.rmax_Ter, ...
-    'o', 'Color', [0,0.66, 0], 'MarkerSize', 3, 'LineWidth', 1, 'MarkerFaceColor', [0.51,0.66,0.31]+ 0.3)
+    'o', 'Color', [0.51,0.66,0.31], 'MarkerSize', 4, 'MarkerFaceColor', [0.51,0.66,0.31]+ 0.3)
+    %'o', 'Color', [0,0.66, 0], 'MarkerSize', 3, 'LineWidth', 1, 'MarkerFaceColor', [0.51,0.66,0.31]+ 0.3)
+hold on
+% rmax elasmobranchs Zhou 2011:
+plot(param.Winf_zhou, param.rmax_zhou, 'o', 'Color', col.red, 'MarkerSize', 5);
 
 % rmax simulations: 
 i = 3; 
@@ -257,20 +238,10 @@ set(gca, 'Xscale', 'log')
 set(gca, 'Yscale', 'log')
 title('C')
 hold off
+legend('Mammal mar.', 'Mammal ter.', 'Elasmobranch', 'EdgeColor','none', 'Color','none', 'Location', 'southwest')
 
-%% plot: -----------------------------------------------------
-x0=0;
-y0=0;
-width=16;
-height=18;
-set(gcf, 'units', 'centimeters', 'position',[x0,y0,width,height])
-
-set(gcf,'Units','centimeters');
-screenposition = get(gcf,'Position'); % get the figure size
-set(gcf,...
-    'PaperPosition',[0 0 screenposition(3:4)],...
-    'PaperSize',[screenposition(3:4)]); % make the print paper size fits the figure size
-print -dpdf -painters Fig_2_Rmax_3_panel
+%% Save the figure as a pdf: 
+save_pdf(gcf, 'Fig3_Rmax',16, 18)
 
 %% Figure 5: R^* vs Ma 4 strategies
 figure

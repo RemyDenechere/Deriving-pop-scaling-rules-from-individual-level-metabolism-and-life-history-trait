@@ -7,7 +7,7 @@ if i == 2 % case 1: Teleost
     A0 = [exp(1.29153), 2.2481,       6.8016];
     b = 0; % slope of the regression 
     ratio = exp(7.299)*Winf.^(0.9085); % former value: = Winf/0.001; % 
-    minWinf = 10; maxWinf = 684000; % g
+    minWinf = 1; maxWinf = 684000; % g
     % conf90_inf = [exp(1.149), 0.02215]; conf90_sup = [exp(1.434), 0.06448]; 
     % 90% confidence is given by the lowest/highest value  A_0 and b (in this
     % order). 
@@ -36,7 +36,7 @@ elseif i == 5
     A0 = [exp(-2.043)*10^(3/2)/0.6,  exp(1.781), exp(2.064)];
     b = [0]; 
     ratio = 176.6654;  % 439.9322;
-    epsR =  0.25; % this is from camila's paper. 
+    epsR =  0.23; % this is from camila's paper. 
     minWinf = 1.40e-05; maxWinf = 0.0135;
    
 % case 5 : Copepods passive
@@ -45,7 +45,7 @@ elseif i == 6
     b = [0]; 
     ratio = 176.6654;  % 439.9322; % I assume the same ratio for active and 
                                    % passive copepods, i.e., they have the same size 
-    epsR =  0.25; 
+    epsR =  0.23; 
     minWinf = 3.220e-07; maxWinf = 9.5922e-06;
     
     % case 6 : unknown organism
@@ -53,7 +53,7 @@ elseif i == 1
     A0 = [exp(1.70586) exp(1.70586) exp(1.70586)]; % Based on bivalves
     b = [0.2149]; % Based on bivalves
     ratio = 362.5; % Based on Elasmobranchs  
-    epsR =  0.25; % based on fish 
+    epsR =  0.21; % based on Elas 
     minWinf = 10^(-7); maxWinf = 10^8;
     
 end
