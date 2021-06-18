@@ -83,7 +83,7 @@ legend('Bivalves', 'Teleost', 'Elasmobranch', 'Copepod A.F. ', 'Copepod A.F.', '
 set(gca, 'FontSize', 10)                                                                                                                                                                                              
 
 % Relation between egg size and Linf 
-
+% 
 subplot(2,1,2)
 % Data: 
 loglog(param.Winf_B2, param.Winf_B2./param.w0_B, 'o', 'Color', col.yellight, 'MarkerSize', 5, 'MarkerFaceColor', [0.99 0.94 0.67] )
@@ -113,7 +113,9 @@ legend('Bivalve', 'Teleost', 'Elasmobranch', 'Copepod', 'Mammal', 'Location', 'N
 set(gca, 'FontSize', 10)
 
 % Save the figure as a pdf: 
+
 save_pdf(gcf, 'Fig2_Data_growth_fecondity',16, 17)
+saveas(gcf, 'Fig2_Data_growth_fecondity.emf')
     
 %% Figure 3: Rmax simulation and data
 figure
