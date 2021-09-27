@@ -17,41 +17,36 @@ col = my_color();
 %   - 2 strategies: M0 is either constant or proportional to M. 
 
 figure()
+
 % Constant strategy: ------------------------------------------------------
-subplot1 = subplot(1,2,1)
 ratio = 10^3; % adult:offsprping size ratio M/M_0
-epsR = [0.02, 0.05, 1]'; % recruitment efficiency 
+epsR = 0.05; % reproduction efficiency 
 r_max = param.A.*(1 - param.n) .* param.M.^(param.n - 1) .*((1 - param.a).*log(ratio) + log(epsR)); 
-
-loglog(param.M, r_max, 'k', 'LineWidth', 1.25)
-set(gca, 'XTick',[0.01 100 10^(6)])
-xlabel('Adult size, M')
-ylabel('Maximum population growth rate, r_{max}')
-title('A')
-
+loglog(param.M, r_max, 'k', 'LineWidth', 2)
+hold on
 % Proportional strategy:---------------------------------------------------
 ratio = param.M/0.01; % adult:offsprping size ratio M/M_0
-epsR = [0.0005, 0.001, 0.01, 1]'; % recruitment efficiency 
+epsR = 0.05;
 r_max = param.A.*(1 - param.n) .* param.M.^(param.n - 1) .*((1 - param.a).*log(ratio) + log(epsR)); 
+plot(param.M, r_max, 'Color', [0.5, 0.5, 0.5], 'LineWidth', 3)
 
-subplot2 = subplot(1,2,2)
-loglog(param.M, r_max, 'k', 'LineWidth', 1.25)
-hold on 
-plot(param.M, param.M.^(-1/4),'k--', 'LineWidth', 1.25)
-xlabel('Adult size, M')
-set(gca, 'XTick',[0.01 100 10^(6)])
-title('B')
+% MTE prediction :---------------------------------------------------
+plot(param.M, param.M.^(-1/4),'k--', 'LineWidth', 2)
+legend('M_0 \propto M', 'M_0 = c', 'MTE prediction', 'Color', 'none',...
+    'Location', 'southeast')
+xlabel('Adult size, M [mass]')
+ylabel('r_{max} [time^{-1}]')
 
 % limits for the axis: 
-xlim(subplot2,[0.5*10^(-2) 10^(6)]);
-xlim(subplot1,[10^(-2) 10^(6)]);
-ylim(subplot1,[0.0528783494877261 3.88425212252619]);
+xlim(gca,[0.00122370279491112 10116524.179177]);
+ylim(gca,[0.0041170690469524 8.324789763665]);
 
 % Textboxes: 
 Extra_code_F1(gcf)
 
+hold off 
 % Save the figure as a pdf: 
-save_pdf(gcf, 'Fig1_Theoretical_rmax',16, 10)
+save_pdf(gcf, 'Fig1_Theoretical_rmax',8, 8)
 
 %% Figure 2: Growth and egg size strategies - DATA
 figure()
