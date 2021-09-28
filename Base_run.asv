@@ -306,13 +306,23 @@ xlim([Winf_val(1) Winf_val(end)])
 ylabel('R^* [g.L^{-1}]')
 xlabel('Adult size, M [g]')
 set(gca, 'FontSize', 10)
-legend('Teleost', 'Elasmobranch', 'Bivalves', 'Copepods', 'Location', 'Southeast', 'EdgeColor', 'none')
+legend('Teleost', 'Elasmobranch', 'Bivalves', 'Copepods', 'Location', 'Northwest', 'EdgeColor', 'none')
 
-% Save the figure as a pdf: 
-save_graph(gcf, 'pdf', 'FigS2_Rstar_data_4cases',16, 10)
+% pdf properties:----------------------------------------------------------
+x0=0;
+y0=0;
+width=16;
+height=10;
+set(gcf, 'units', 'centimeters', 'position',[x0,y0,width,height])
 
-%% FigureS3: plot Winf/Wm ratio
-load('Maturity_data.mat')
+set(gcf,'Units','centimeters');
+screenposition = get(gcf,'Position'); % get the figure size
+set(gcf,...
+    'PaperPosition',[0 0 screenposition(3:4)],...
+    'PaperSize',[screenposition(3:4)]); % make the print paper size fits the figure size
+print -dpdf -painters FigS2_Rstar_data_4cases
+
+%% suplementary: plot Winf/Wm ratio
 
 Winf =  datamaturity.Winf; x = log10(Winf);
 Wm = datamaturity.Wm; y = log10(Wm);
@@ -323,16 +333,14 @@ sym = '.';
 Fit1 =  exp(-3.61528)*(Winf.^1.19749); %  0.4095*Winf  -48.34; % 
 
 subplot(2,1,1)
-plot(Winf, Fit1,  'k', 'LineWidth', 1.5)
-hold on 
 gscatter(Winf, Wm ,phylum, clr, sym, 20)
 ylabel('Maturation weight, M_m [g]')
 xlabel(' ')
 set(gca, 'Xscale', 'log')
 set(gca, 'Yscale', 'log')
-hold on
-plot(Winf, Fit1,  'k', 'LineWidth', 1.5)
-leg1 = legend('Fit', 'Teleosts', 'Elasmobranches', 'Bivalves');
+hold on 
+plot(Winf, Fit,  'k', 'LineWidth', 1.5)
+leg1 = legend('Teleosts', 'Elasmobranches', 'Bivalves', 'Fit');
 leg1.Location = 'NorthWest'; leg1.EdgeColor = 'none';
 
 subplot(2,1,2)
@@ -348,24 +356,32 @@ leg2.Location = 'NorthEast'; leg2.EdgeColor = 'none';
 ylim([10^(-2) 10^(7)])
 xlim([min(Winf) max(Winf)])
 
+% pdf properties:----------------------------------------------------------
+x0=0;
+y0=0;
+width=16;
+height=12.5;
+set(gcf, 'units', 'centimeters', 'position',[x0,y0,width,height])
 
-% Save the figure as a pdf: 
-save_graph(gcf, 'pdf', 'FigS3_Maturation_size',16, 12.5)
+set(gcf,'Units','centimeters');
+screenposition = get(gcf,'Position'); % get the figure size
+set(gcf,...
+    'PaperPosition',[0 0 screenposition(3:4)],...
+    'PaperSize',[screenposition(3:4)]); % make the print paper size fits the figure size
+print -dpdf -painters Fig_4_Supp_Maturation_size
 
 %% supplementary: Calculation of R* over adult size M, for various growth strategies
 
-epsa = 0.6; % assimilation efficiency
-f0 = 0.6; % standard feeding level
-fc = 0.2; % metabolic cost as a fraction of energy assimilated 
-gamma = 1.9753*10^3; % constant for clearance rate
-q = 0.8; % exponent clearance rate 
-M = linspace(10^(-3), 10^(7), 10^(4)); % asymptotic size 
-n = 3/4; % metabolic exponent
+epsa = 0.6; 
+f0 = 0.6; 
+fc = 0.2;
+gamma = 1.9753*10^3; 
+q = 0.8; 
+M = linspace(10^(-3), 10^(7), 10^(4));
 
-figure1 = figure();
-
-% Varying b: -------------------------------------------------------------- 
-subplot1 = subplot(1,2,1);
+figure1 = figure()
+% Varying b (grstrategy): 
+subplot1 = subplot(1,2,1)
 A_0 = [5, 10] ; b = [0, q-n, 0.2]'; 
 LineStyle = ['-', ':']; 
 for i = 1:2
@@ -383,7 +399,7 @@ xlabel('Adult size, M')
 
 
 % Varying q parameter: 
-subplot2 = subplot(1,2,2);
+subplot2 = subplot(1,2,2)
 A_0 = 5 ; b = q-n; 
 q = [0.5, 0.75, 1]';
 
@@ -393,11 +409,76 @@ loglog(M, R_star, 'Color', 'k', 'LineWidth', 1.25)
 xlabel('Adult size, M')
 title('B', 'position', [0.081777313638694,0.065712872215395,0])
 
-% annotation/arrows: 
-Extra_code_S4(figure1, subplot1, subplot2)
+xlim(subplot1,[0.0049141264204139 40625778.5455678]);
+ylim(subplot1,[0.000660894157161765 0.0314005397084759]);
 
-% Save the figure as a pdf: 
-save_graph(gcf, 'pdf', 'FigS4_Theoretical_R_star',16, 10)
+xlim(subplot2,[0.0287860005734426 813274.595671752]);
+ylim(subplot2,[0.000215455548253829 0.0656210196600505]);
 
+
+set(subplot2,'XMinorTick','on','XScale','log','YMinorTick','on','YScale',...
+    'log');
+
+% Create textboxs:---------------------------------------------------------
+annotation(figure1,'textbox',...
+    [0.403425578831311 0.424162257495587 0.0475115766262406 0.0458553791887129],...
+    'VerticalAlignment','middle',...
+    'String','b=n-q',...
+    'HorizontalAlignment','center',...
+    'FitBoxToText','off',...
+    'EdgeColor','none');
+
+annotation(figure1,'textbox',...
+    [0.403425578831311 0.161375661375658 0.0475115766262407 0.0458553791887127],...
+    'VerticalAlignment','middle',...
+    'String','b<n-q',...
+    'HorizontalAlignment','center',...
+    'FitBoxToText','off',...
+    'EdgeColor','none');
+
+annotation(figure1,'textbox',...
+    [0.143880926130099 0.650793650793649 0.156560088202867 0.0458553791887127],...
+    'VerticalAlignment','middle',...
+    'String','Increasing A_0',...
+    'HorizontalAlignment','center',...
+    'FitBoxToText','off',...
+    'EdgeColor','none',...
+    'BackgroundColor',[1 1 1]);
+
+annotation(figure1,'textbox',...
+    [0.403425578831311 0.75132098765432 0.0475115766262407 0.0458553791887126],...
+    'VerticalAlignment','middle',...
+    'String','b>n-q',...
+    'HorizontalAlignment','center',...
+    'FitBoxToText','off',...
+    'EdgeColor','none');
+
+annotation(figure1,'textbox',...
+    [0.751826901874309 0.583774250440917 0.143432194046308 0.0705467372134018],...
+    'VerticalAlignment','middle',...
+    'String','Increasing q',...
+    'HorizontalAlignment','center',...
+    'FitBoxToText','off',...
+    'EdgeColor','none');
+
+% Create arrows:-----------------------------------------------------------
+annotation(figure1,'arrow',[0.305402425578831 0.305402425578831],...
+    [0.619811618165782 0.756614087301586]);
+
+annotation(figure1,'arrow',[0.751929437706725 0.751929437706725],...
+    [0.310405643738977 0.714285714285714]);
+
+x0=0;
+y0=0;
+width=16;
+height=10; 
+set(gcf, 'units', 'centimeters', 'position',[x0,y0,width,height])
+
+set(gcf,'Units','centimeters');
+screenposition = get(gcf,'Position'); % get the figure size
+set(gcf,...
+    'PaperPosition',[0 0 screenposition(3:4)],...
+    'PaperSize',[screenposition(3:4)]); % make the print paper size fits the figure size
+print -dpdf -painters Fig_0b_Theoretical_R_star
 
 
