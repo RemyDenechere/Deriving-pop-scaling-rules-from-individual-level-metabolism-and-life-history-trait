@@ -33,11 +33,11 @@ r_max = param.A.*(1 - param.n) .* param.M.^(param.n - 1) .*((1 - param.a).*log(r
 plot(param.M, r_max, 'Color', [0.5, 0.5, 0.5], 'LineWidth', 3)
 
 % MTE prediction :---------------------------------------------------
-plot(param.M, param.M.^(-1/4),'k--', 'LineWidth', 2)
-legend('M_0 \propto M', 'M_0 = c', 'MTE prediction', 'Color', 'none',...
-    'Location', 'southeast')
-xlabel('Adult size, M [mass]')
-ylabel('r_{max} [time^{-1}]')
+% plot(param.M, param.M.^(-1/4),'k--', 'LineWidth', 2)
+legend('M_0 \propto M', 'M_0 = c', 'Color', 'none',...
+    'Edgecolor', 'none', 'Location', 'southeast')
+xlabel('Adult size, M (g)')
+ylabel('r_{max} (year^{-1})')
 
 % limits for the axis: 
 xlim(gca,[0.00122370279491112 10116524.179177]);
