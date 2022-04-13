@@ -118,24 +118,29 @@ param.rmax_Hutch = r_max_Teleost_Hutchings2012.rmax;
 param.Winf_zhou = data_rmax_Elasmobranch_Zhou2011.Winf;
 param.rmax_zhou = data_rmax_Elasmobranch_Zhou2011.M2;
 
-% Mammals from hutchings 2012: 
+% Mammals: 
 Marine = r_max_Mammalia_Hutchings2012(r_max_Mammalia_Hutchings2012.Type == 'Marine', :);
 Terrest = r_max_Mammalia_Hutchings2012(r_max_Mammalia_Hutchings2012.Type == 'Terrestrial', :);
-% marine mammals: 
+% marine: 
 param.Winf_Marine = Marine.Maximum_weight_g;
 param.rmax_Marine = Marine.rmax;
 % Terestrial: 
 param.Winf_Ter = Terrest.Maximum_weight_g;
 param.rmax_Ter =  Terrest.rmax;
 
-%% Epsilon_R from elasmobranches
+%% Epsilon_R fro elasmobranches
+% -------------------------------------------------------------------------
+    % General model from Zhou data:
+    %      rmax = (-1/4)*Winf + b
+    %      b =  exp(1.681)
     
-% r_max parameters for elasmobranches: 
-A = 5.5; % somatic growth coeff
-b = exp(1.681); % scaling exponent for somatic growth rate
-ratio = 362.5060; % Adult:offspring size ratio
-
+% epsR : 
+A = 5.5; % Table 2
+b = exp(1.681); 
+ratio = 362.5060; 
 param.epsR_elasm = exp(b/(A*(1-param.n)) - (1-param.a)*log(ratio)) ;
+
+
 
 
 

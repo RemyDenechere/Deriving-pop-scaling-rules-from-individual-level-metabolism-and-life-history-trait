@@ -4,7 +4,7 @@
 %                                                                         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 clear all 
-addpath('data', 'Suppl_code')
+addpath('data\data in mat', 'Suppl_code')
 
 % set tha parameters
 param = parameters();
@@ -17,7 +17,6 @@ col = my_color();
 %   - A is constant with adult size M. 
 %   - Resource is constant (implies that A = constant). 
 %   - 2 strategies: M0 is either constant or proportional to M. 
-
 figure()
 
 % Constant strategy: ------------------------------------------------------
@@ -47,15 +46,16 @@ ylim(gca,[0.0041170690469524 8.324789763665]);
 Extra_code_F1(gcf)
 
 hold off 
-save_graph(gcf, 'pdf', 'Fig1_Theoretical_rmax', 8, 8)
+% save_graph(gcf, 'pdf', 'Fig1_Theoretical_rmax', 8, 8)
 
 %% Figure 2: Growth and egg size strategies - DATA
+
 figure()
 
 % Plot Growth parameter A: ------------------------------------------------
 subplot(2,1,1)
-loglog(param.Winf_B, param.A_B, 'o', 'Color', col.yellight, 'MarkerSize', 5, 'MarkerFaceColor', [0.99 0.94 0.67] ) % Benthos data A %
-hold on 
+loglog(param.Winf_B, param.A_B, 'o', 'Color', col.yellight, 'MarkerSize', 5, 'MarkerFaceColor', [0.99 0.94 0.67]) % Benthos data A %
+hold on
 plot(param.Winf_F, param.A_F, '.', 'Color', [0, 0.26,0.99], 'MarkerSize', 7) % Teleost data A
 hold on 
 plot(param.Winf_E, param.A_E, 'o', 'Color', col.redlight, 'MarkerSize', 5) % Elasmobranch data A
@@ -82,7 +82,7 @@ set(gca, 'FontSize', 10)
 % 
 subplot(2,1,2)
 % Data: 
-loglog(param.Winf_B2, param.Winf_B2./param.w0_B, 'o', 'Color', col.yellight, 'MarkerSize', 5, 'MarkerFaceColor', [0.99 0.94 0.67] )
+loglog(param.Winf_B2, param.Winf_B2./param.w0_B, 'o', 'Color', col.yellight, 'MarkerSize', 5, 'MarkerFaceColor', [0.99 0.94 0.67])
 hold on 
 plot(param.Winf_T2, param.Winf_T2./param.w0_T, '.', 'Color', [0, 0.26,0.99], 'MarkerSize', 7)
 hold on 
@@ -101,12 +101,18 @@ hold on
 plot(param.Winf_C2, param.Fit_C, '-', 'Color', [0.49,0.18,0.56],  'LineWidth', 1.5)
 hold on 
 plot(param.Winf_M2, param.Fit_M, '-', 'Color', [0.51,0.66,0.31],  'LineWidth', 1.5)
+hold off
 
 xlabel('Asymptotic weight, M_{\infty} [g]')
 ylabel('Adult:Offspring size ratio, M_{\infty}/M_0 [g]')
 title('B')
 legend('Bivalve', 'Teleost', 'Elasmobranch', 'Copepod', 'Mammal', 'Location', 'Northwest', 'EdgeColor', 'none')
 set(gca, 'FontSize', 10)
+
+
+
+
+%%
 
 % Save the figure as a pdf: 
 save_graph(gcf, 'pdf', 'Fig2_Data_growth_fecondity',16, 17)
@@ -246,7 +252,7 @@ save_graph(gcf, 'pdf', 'Fig3_Rmax', 16, 18)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                           Suypplementary                                %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Figure S1: Theoretical population growth rate with variation of Er
+%% Figure S1: Theoretical population growth rate with variation of Epsilon r
 % Assumtions: 
 %   - A is constant with adult size M => Resource is constant
 %   - 2 strategies: M0 is either constant or proportional to M. 

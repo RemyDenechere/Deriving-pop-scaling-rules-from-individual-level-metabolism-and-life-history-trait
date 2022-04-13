@@ -1,6 +1,7 @@
 function [R_star , r_max, minWinf, maxWinf] = Pop_growth_rate(Winf, f, param, i, j)
 % give an approximation of the population growth rate of a population give
 % based on the growth coefficient A. 
+n = 3/4;
 
 if i == 2 % case 1: Teleost
     %    value         Lower limit    Upper limit 
@@ -48,6 +49,7 @@ elseif i == 6
     epsR =  0.23; 
     minWinf = 3.220e-07; maxWinf = 9.5922e-06;
     
+    
     % case 6 : unknown organism
 elseif i == 1
     A0 = [exp(1.70586) exp(1.70586) exp(1.70586)]; % Based on bivalves
@@ -56,6 +58,14 @@ elseif i == 1
     epsR =  0.21; % based on Elas 
     minWinf = 10^(-7); maxWinf = 10^8;
 
+
+elseif i == 7 % Squids
+    A0 = [exp(1.70586) exp(1.70586) exp(1.70586)]; % Based on bivalves
+    b = [0.2149]; % Based on bivalves
+    ratio = 362.5; % Based on Elasmobranchs  
+    epsR =  0.21; % based on Elas 
+    minWinf = 10^(-7); maxWinf = 10^8;
+    
 end
 
 
@@ -66,10 +76,10 @@ end
     A = param.epsa.*h0.*Winf.^(b(1)).*(f - param.fc);
 
 % population growth rate: -------------------------------------------------
-    r_max = A.*(1 - param.n) .* Winf.^(param.n - 1) .* ((1 - param.a) .* log(ratio) + log(epsR));
+    r_max = A.*(1 - n ) .* Winf.^(n - 1) .* ((1 - param.a) .* log(ratio) + log(epsR));
     
 % Minimum resource level:  ------------------------------------------------
-    R_star = param.fc * h0 * Winf.^(b(1) + param.n - param.q)...
+    R_star = param.fc * h0 * Winf.^(b(1) + n - param.q)...
         ./(param.gamma * (1 - param.fc) ); 
     
 end
