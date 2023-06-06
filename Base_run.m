@@ -75,7 +75,7 @@ hold on
 plot(param.Winf_C(param.ixPas), param.FitAC_Pass, '-', 'Color', [0.49,0.18,0.56], 'Linewidth', 1.5) % Copepods fit A
 ylabel('Growth coefficient, A [g^{1/4}/yr]')
 title('A')
-legend('Bivalves', 'Teleost', 'Elasmobranch', 'Copepod A.F. ', 'Copepod A.F.', 'Location', 'Southeast', 'EdgeColor', 'none')
+legend('Bivalves', 'Teleost', 'Elasmobranch', 'Copepod A.F. ', 'Copepod A.F.', 'Location', 'best', 'EdgeColor', 'none')
 set(gca, 'FontSize', 10)                                                                                                                                                                                              
 
 % Relation between egg size and Linf 
@@ -121,7 +121,7 @@ save_graph(gcf, 'pdf', 'Fig2_Data_growth_fecondity',16, 17)
 
 figure
 color = [0.77,0.45,0.51; 0.00,0.45,0.74 ; 0.85,0.33,0.10 ; 0.93,0.69,0.13; 0.49,0.18,0.56 ; 0.49,0.18,0.56; ]; % set the color 
-color_light = [0.77,0.45,0.51; 0.41,0.76,0.99 ; 1.00,0.60,0.43 ; 1.00,0.82,0.39; 1.00,0.82,0.39];  
+color_light = [0.77,0.45,0.51; 0.41,0.76,0.99 ; 1.00,0.60,0.43 ; 1.00,0.82,0.39; 1.00,0.82,0.39; 1.00,0.67,0.50];  
 % blue / red / Jaune / violet
 
 [Winf, ~] = Grid(10^(-7), 10^8); % asymptotic size range g 

@@ -1,19 +1,19 @@
 function param = parameters()
 
 %% load the data: 
-load('Egg_size_data_Benthos.mat')
-load('Egg_size_data_Elasmobranch.mat')
-load('Egg_size_data_Teleost.mat')
-load('Egg_size_data_Copepods.mat')
-load('Egg_size_data_Mammal.mat')
-load('Growth_data_Copepod.mat')
-load('Growth_data_Bivalve.mat')
-load('Growth_data_Elasmobranch.mat') 
-load('Growth_data_Teleost.mat')
-load('r_max_Teleost_Hutchings2012.mat')
-load('r_max_Elasmobranch_Zhou2011.mat')
-load('r_max_Mammalia_Hutchings2012.mat')
-load('Maturity_data.mat')
+load('data/data_mat/Egg_size_data_Benthos.mat')
+load('data/data_mat/Egg_size_data_Elasmobranch.mat')
+load('data/data_mat/Egg_size_data_Teleost.mat')
+load('data/data_mat/Egg_size_data_Copepods.mat')
+load('data/data_mat/Egg_size_data_Mammal.mat')
+load('data/data_mat/Growth_data_Copepod.mat')
+load('data/data_mat/Growth_data_Bivalve.mat')
+load('data/data_mat/Growth_data_Elasmobranch.mat') 
+load('data/data_mat/Growth_data_Teleost.mat')
+load('data/data_mat/r_max_Teleost_Hutchings2012.mat')
+load('data/data_mat/r_max_Elasmobranch_Zhou2011.mat')
+load('data/data_mat/r_max_Mammalia_Hutchings2012.mat')
+load('data/data_mat/Maturity_data.mat')
 
 %% Basic parameter for the plots:
 
@@ -47,7 +47,7 @@ param.F_eta = 0.28; % g, ratio between asymptotic size and size at maturation
 Linf_B = Growth_data_Bivalve.Linf; % Asymptotic length bivalves (cm)
 param.Winf_B = param.B_c*Linf_B.^(3); % conversion length (cm) to wet weigth (g)
 K_B = Growth_data_Bivalve.K; % von Bertalanffy growth coef K 
-% Conversion from K to A 
+% Conversion from K to A:
 param.A_B = 3*K_B.*Linf_B.^(3/4)*param.B_c^(1/4)*param.B_eta^(-1/12); % g^(-1/4) year^(-1) with metabolic exponent n = 3/4 see Andersen 2019 (book) 
 % fit of A with Winf for bivalves: 
 param.FitAB = exp(-0.01941)*param.Winf_B.^(0.2149);
